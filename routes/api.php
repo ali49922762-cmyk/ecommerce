@@ -4,11 +4,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
+
 
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+Route::get('/products/search', [ProductController::class, 'search']);
 
 //Login , Register
 
@@ -37,3 +41,12 @@ Route::middleware('auth:sanctum')
 Route::post('/products/{id}', [ProductController::class, 'update']);
 
 Route::delete('/products/{id}', [ProductController::class, 'delete']);
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/cart/add', [CartController::class, 'addToCart']); 
+    Route::get('/cart', [CartController::class, 'showCart']);       
+});
+
+
+

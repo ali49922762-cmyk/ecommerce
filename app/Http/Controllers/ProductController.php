@@ -105,5 +105,16 @@ class ProductController extends Controller
             ]
         ]);
     }
+
+    public function search(Request $request)
+    {
+        $products = Product::where('name','like','%'.$request->name.'%')
+            ->orWhere('description','like','%'.$request->name.'%')
+            ->get();
+
+        return response()->json([
+            'data' => $products
+        ]);
+}
     
 }
